@@ -1,0 +1,311 @@
+
+/* light orange: #ffb565
+   orange: #ff7d00 (background)
+   dark orange:  #db5700 (text)*/
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+html, body, table {
+    font-family: "Ubuntu", Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    color: #222;
+    padding: 0;
+    margin: 0;
+    background-color: #eee;
+}
+td {
+    padding: 2px;
+}
+h2 {
+    font-size: 2em;
+    color: #000;
+    margin: 10px;
+    margin-left: 0;
+}
+
+input, textarea, select {
+    font-family: "Ubuntu", Helvetica, Arial, sans-serif;
+    vertical-align: middle;
+    font-size: 12px;
+    resize: none;
+}
+textarea {
+    height: 40px;
+}
+input[type=text], input[type=password], input[type=email], textarea {
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #999;
+    outline: none;
+    margin-bottom: 4px;
+    padding: 1px;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, textarea:focus {
+    border-color: #666;
+
+}
+input[type=button], input[type=submit] {
+    background-color: #ddd;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #999;
+    padding: 6px;
+    margin-bottom: 4px;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+input[type=button]:hover, input[type=submit]:hover {
+    color: #000;
+    background-color: #eee;
+    border-color: #666;
+}
+a:link {
+    color: #db5700;
+    text-decoration: none;
+}
+a:visited {
+    color: #db5700;
+    text-decoration: none;
+}
+a:active {
+    color: #db5700;
+    text-decoration: none;
+}
+a:hover {
+    color: #db5700;
+    text-decoration: none;
+}
+form {
+    margin: 10px;
+}
+label:not(.exclude):not(.ui-button) + * {
+    margin-left: 0.5em;
+}
+label:not(.exclude):not(.ui-button) {
+    display: inline-block;
+    width: 10em;
+    font-weight: bold;
+    cursor: pointer;
+}
+a img {border: none; }
+.dialog textarea, .ui-loccom-dialog textarea {
+    width: 70%;
+}
+
+#content {
+    position: absolute;
+    left: 200px;
+    top: 50px;
+    right: 0;
+    padding: 5px;
+    bottom: 0;
+    background-color: #fff;
+    box-shadow: inset 1px 1px 5px #666;
+    border: 1px solid #999;
+    border-top-left-radius: 3px;
+}
+#leftnav {
+    position: fixed;
+    top: 50px;
+    width: 200px;
+    height: 100%;
+    padding: 5px;
+    padding-top: 50px;
+}
+#topnav {
+    width: 100%;
+    position: fixed;
+    height: 50px;
+    margin-left: 25px
+}
+body::-webkit-scrollbar {
+  height: 10px;
+  overflow: visible;
+  width: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 127, 0, .8);
+  background-clip: padding-box;
+  border: solid transparent;
+  min-height: 28px;
+  padding: 100px 0 0;
+  border-width: 1px 1px 1px 6px;
+  border-radius: 3px;
+}
+
+body::-webkit-scrollbar-button {
+    height: 0;
+    width: 0;
+}
+
+body::-webkit-scrollbar-track {
+    background-clip: padding-box;
+    border: solid transparent;
+    border-width: 0 0 0 4px;
+}
+
+body::-webkit-scrollbar-corner {
+    background: transparent;
+}
+.noXOverflow {
+    overflow: hidden;
+}
+.nomargin {
+    margin: 0;
+}
+.nopadding {
+    padding: 0;
+}
+.right {
+    float: right;
+}
+.left {
+    float: left;
+}
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { *zoom: 1; }
+
+.link {
+    cursor: pointer;
+}
+.gray {
+    color: #666;
+}
+.date {
+    font-size:10px;
+    color:#666;
+}
+.name {
+    font-weight: bold;
+}
+p.textright {
+    text-align: right;
+}
+nav {
+    font-weight: bold;
+    font-size: 1.5em;
+    list-style: none;
+}
+nav a {
+    color: #000 !important
+}
+nav ul {
+    padding: 0;
+    margin:0;
+    list-style: none;
+}
+nav li {
+    margin:0;
+    padding: 4px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+nav li.active, nav li:hover {
+    background-color: #ffb565;
+    -moz-box-shadow: 0px 0px 5px #ffb565;
+    -webkit-box-shadow: 0px 0px 5px #ffb565;
+    box-shadow: 0px 0px 5px #ffb565;
+}
+#topnav ul, #topnav li {
+    display: inline-block;
+    vertical-align: top
+}
+#topnav ul {
+    margin-top: 10px;
+    margin-left: 25px;
+}
+.nobullet {
+    list-style: none;
+}
+.hidden {
+    display: none;
+}
+
+form.login {
+    position: absolute;
+    width: 600px;
+    height: 300px;
+    left: 50%;
+    top: 50%;
+    margin-left: -300px;
+    margin-top: -150px;
+    background: white;
+    border-radius: 3px;
+    -moz-box-shadow: 0 0 15px #666;
+    -webkit-box-shadow: 0 0 15px #666;
+    box-shadow: 0 0 15px #666;
+}
+
+form.login div {
+    margin: 50px 0;
+    display: inline-block;
+    text-align: center;
+    width: 48%;
+    font-size: 2em;
+}
+
+form.login input {
+    width: 90%;
+    font-size: 1.5em;
+    text-align: center;
+    margin: 30px 0 0 0;
+    -moz-box-shadow: inset 0 0 3px #333;
+    -webkit-box-shadow: inset 0 0 3px #333;
+    box-shadow: inset 0 0 3px #333;
+}
+
+form.login input[type=submit] {
+    margin: auto;
+    display: block;
+    background-color: #ffb565;
+    -moz-box-shadow: inset 0 0 6px #db5700;
+    -webkit-box-shadow: inset 0 0 6px #db5700;
+    box-shadow: inset 0 0 6px #db5700;
+    font-size: 2em;
+}
+
+form.login a {
+    text-align: center;
+    display: block;
+    margin-top: 20px;
+    font-size: 1.5em;
+}
+
+footer.login {
+    position: absolute;
+    bottom: 30px;
+    font-size: 1.5em;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+}
+
+#loginlogo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -75px;
+    margin-top: -275px;
+}
