@@ -118,6 +118,7 @@ a img {border: none; }
     box-shadow: inset 1px 1px 5px #666;
     border: 1px solid #999;
     border-top-left-radius: 3px;
+    overflow: scroll;
 }
 #leftnav {
     position: fixed;

@@ -1,3 +1,4 @@
+// Package loc-com.de/feed provides functions and types to decode Atom-/RSS-/RSS2-Feeds
 package feed
 
 import (
@@ -5,7 +6,7 @@ import (
 	"fmt"
 )
 
-type RSSItem struct {
+type rssItem struct {
 	Title       string   `xml:"title"`
 	Link        string   `xml:"link"`
 	Description string   `xml:"description"`
@@ -25,7 +26,7 @@ type RSSItem struct {
 		Url  string `xml:"url,attr"`
 	} `xml:"source"`
 }
-type RSSChannel struct {
+type rssChannel struct {
 	Title          string    `xml:"title"`
 	Link           string    `xml:"link"`
 	Description    string    `xml:"description"`
@@ -42,23 +43,23 @@ type RSSChannel struct {
 	Rating         string    `xml:"rating"`
 	SkipHours      string    `xml:"skipHours"`
 	SkipDays       string    `xml:"skipDays"`
-	Items          []RSSItem `xml:"item"`
+	Items          []rssItem `xml:"item"`
 	Image          struct {
 		Url   string `xml:"url,attr"`
 		Title string `xml:"title,attr"`
 		Link  string `xml:"link,attr"`
 	} `xml:"image"`
 }
-type RSS2Feed struct {
+type rss2Feed struct {
 	XMLName xml.Name   `xml:"rss"`
-	Channel RSSChannel `xml:"channel"`
+	Channel rssChannel `xml:"channel"`
 }
-type RSSFeed struct {
+type rssFeed struct {
 	XMLName xml.Name   `xml:"rdf"`
-	Channel RSSChannel `xml:"channel"`
+	Channel rssChannel `xml:"channel"`
 }
 
-type AtomEntry struct {
+type atomEntry struct {
 	Author       string   `xml:"author"`
 	Categories   []string `xml:"category"`
 	Content      string   `xml:"content"`
@@ -72,7 +73,7 @@ type AtomEntry struct {
 	Title        string   `xml:"title"`
 	Updated      string   `xml:"updated"`
 }
-type AtomFeed struct {
+type atomFeed struct {
 	XMLName      xml.Name    `xml:"feed"`
 	Author       string      `xml:"author"`
 	Categories   []string    `xml:"category"`
@@ -85,9 +86,10 @@ type AtomFeed struct {
 	Subtitle     string      `xml:"subtitle"`
 	Title        string      `xml:"title"`
 	Updated      string      `xml:"updated"`
-	Entries      []AtomEntry `xml:"entry"`
+	Entries      []atomEntry `xml:"entry"`
 }
 
+// FeedItem represents Items in a Feed
 type FeedItem struct {
 	Author       string
 	Categories   []string
@@ -112,6 +114,8 @@ type FeedItem struct {
 		Link  string
 	}
 }
+
+// Feed represents an RSS/Atom-Feed
 type Feed struct {
 	Author         string
 	Categories     []string
@@ -141,7 +145,7 @@ type Feed struct {
 	}
 }
 
-func getAtomItems(atom *AtomFeed) []FeedItem {
+func getAtomItems(atom *atomFeed) []FeedItem {
 	feedItems := make([]FeedItem, len(atom.Entries))
 	for i := 0; i < len(atom.Entries); i++ {
 		feedItems[i].Author = atom.Entries[i].Author
@@ -160,7 +164,7 @@ func getAtomItems(atom *AtomFeed) []FeedItem {
 	return feedItems
 }
 
-func getRSSItems(channel *RSSChannel) []FeedItem {
+func getRSSItems(channel *rssChannel) []FeedItem {
 	feedItems := make([]FeedItem, len(channel.Items))
 	for i := 0; i < len(channel.Items); i++ {
 		feedItems[i].Author = channel.Items[i].Author
@@ -170,6 +174,7 @@ func getRSSItems(channel *RSSChannel) []FeedItem {
 		feedItems[i].Categories = channel.Items[i].Categories
 		feedItems[i].Guid = channel.Items[i].Guid
 		feedItems[i].Content = channel.Items[i].Content
+		feedItems[i].Title = channel.Items[i].Title
 		feedItems[i].Enclosure.Url = channel.Items[i].Enclosure.Url
 		feedItems[i].Enclosure.Length = channel.Items[i].Enclosure.Length
 		feedItems[i].Enclosure.Type = channel.Items[i].Enclosure.Type
@@ -179,19 +184,20 @@ func getRSSItems(channel *RSSChannel) []FeedItem {
 	return feedItems
 }
 
+// Decode decodes an XML byte slice to a Feed struct
 func Decode(feedXML []byte) (*Feed, error) {
 	feedType := ""
-	rss2 := RSS2Feed{}
+	rss2 := rss2Feed{}
 	err := xml.Unmarshal(feedXML, &rss2)
 	if err == nil {
 		feedType = "rss2"
 	}
-	atom := AtomFeed{}
+	atom := atomFeed{}
 	err = xml.Unmarshal(feedXML, &atom)
 	if err == nil {
 		feedType = "atom"
 	}
-	rss := RSSFeed{}
+	rss := rssFeed{}
 	err = xml.Unmarshal(feedXML, &rss)
 	if err != nil && feedType == "" {
 		fmt.Println(err)
@@ -200,13 +206,12 @@ func Decode(feedXML []byte) (*Feed, error) {
 	}
 	feed := Feed{}
 	if feedType == "rss" || feedType == "rss2" {
-		channel := new(RSSChannel)
+		channel := new(rssChannel)
 		if feedType == "rss" {
 			channel = &rss.Channel
 		} else {
 			channel = &rss2.Channel
 		}
-		// fmt.Printf("%v\n%#v", channel, rss)
 		feed.Author = channel.ManagingEditor
 		feed.Categories = channel.Categories
 		feed.Copyright = channel.Copyright
