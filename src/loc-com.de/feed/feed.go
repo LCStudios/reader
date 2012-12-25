@@ -4,6 +4,7 @@ package feed
 import (
 	"encoding/xml"
 	"fmt"
+	"time"
 )
 
 type rssItem struct {
@@ -99,11 +100,12 @@ type FeedItem struct {
 	Guid         string
 	Id           string
 	Link         string
-	Published    string
+	Published    time.Time // == rss.PubDate
+	Received     time.Time
 	Rights       string
 	Summary      string // == rss.Description
 	Title        string
-	Updated      string // == rss.PubDate
+	Updated      time.Time
 	Enclosure    struct {
 		Url    string
 		Length string
@@ -154,12 +156,13 @@ func getAtomItems(atom *atomFeed) []FeedItem {
 		feedItems[i].Contributors = atom.Entries[i].Contributors
 		feedItems[i].Id = atom.Entries[i].Id
 		feedItems[i].Link = atom.Entries[i].Link
-		feedItems[i].Published = atom.Entries[i].Published
+		feedItems[i].Published, _ = time.Parse("RFC3339", atom.Entries[i].Published)
 		feedItems[i].Rights = atom.Entries[i].Rights
 		feedItems[i].Source.Link = atom.Entries[i].Source
 		feedItems[i].Summary = atom.Entries[i].Summary
 		feedItems[i].Title = atom.Entries[i].Title
-		feedItems[i].Updated = atom.Entries[i].Updated
+		feedItems[i].Updated, _ = time.Parse("RFC3339", atom.Entries[i].Updated)
+		sanitizeItem(&feedItems[i])
 	}
 	return feedItems
 }
@@ -170,7 +173,7 @@ func getRSSItems(channel *rssChannel) []FeedItem {
 		feedItems[i].Author = channel.Items[i].Author
 		feedItems[i].Link = channel.Items[i].Link
 		feedItems[i].Summary = channel.Items[i].Description
-		feedItems[i].Published = channel.Items[i].PubDate
+		feedItems[i].Published, _ = time.Parse("RFC3339", channel.Items[i].PubDate)
 		feedItems[i].Categories = channel.Items[i].Categories
 		feedItems[i].Guid = channel.Items[i].Guid
 		feedItems[i].Content = channel.Items[i].Content
@@ -180,8 +183,16 @@ func getRSSItems(channel *rssChannel) []FeedItem {
 		feedItems[i].Enclosure.Type = channel.Items[i].Enclosure.Type
 		feedItems[i].Source.Link = channel.Items[i].Source.Url
 		feedItems[i].Source.Title = channel.Items[i].Source.Name
+		sanitizeItem(&feedItems[i])
 	}
 	return feedItems
+}
+
+func sanitizeItem(feedItem *FeedItem) {
+	if len(feedItem.Content) < len(feedItem.Summary) {
+		feedItem.Content = feedItem.Summary
+	}
+
 }
 
 // Decode decodes an XML byte slice to a Feed struct

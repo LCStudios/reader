@@ -7,26 +7,31 @@
     </head>
     <body>
         <nav id="topnav">
-            <img src="static/img/logo1.png" alt="Logo" />
+            <a href="/"><img src="/img/logo1.ico" alt="Logo" /></a>
             <ul>
                 <li>LocCom</li>
                 <li>Mail</li>
             </ul>
         </nav>
         <nav id="leftnav">
+        <h1>LocCom Reader</h1>
+            <input type="button" value="Feed hinzufügen">
             <ul>
-                <li>1st feed</li>
-                <li>second long named feed with a lot of words spanning maybe multiple lines</li>
             </ul>
         </nav>
-        <section id="content">
+        <div id="main">
+            <section id="content">
 
-        </section>
+            </section>
+        </div>
         <script id="feed-item-tmpl" type="text/x-handlebars-tmpl">
             <div>
                 <h2>{{Title}}</h2>
                 {{{Content}}}
             </div>
+        </script>
+        <script id="feed-tmpl" type="text/x-handlebars-tmpl">
+            <a href="/feed/{{Id}}"><li>{{Feed.Title}}</li></a>
         </script>
         <script src="/js/lib/json2.js"></script>
         <script src="/js/lib/jquery.js"></script>
