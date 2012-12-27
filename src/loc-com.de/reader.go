@@ -45,10 +45,10 @@ func main() {
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/feed/", feed)
 	http.HandleFunc("/feeds/", getFeeds)
-	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
-	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("js"))))
-	http.Handle("/tmpl/", http.StripPrefix("/tmpl/", http.FileServer(http.Dir("tmpl"))))
-	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("img"))))
+	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("static/css"))))
+	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("static/js"))))
+	// http.Handle("/tmpl/", http.StripPrefix("/tmpl/", http.FileServer(http.Dir("tmpl"))))
+	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("static/img"))))
 
 	serverAddr := ":8000"
 
@@ -58,7 +58,7 @@ func main() {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	body, _ := ioutil.ReadFile("index.html")
+	body, _ := ioutil.ReadFile("static/index.html")
 	fmt.Fprint(w, string(body))
 }
 

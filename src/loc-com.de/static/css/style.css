@@ -231,11 +231,11 @@ nav li {
     transition: all 0.2s ease-in-out;
 }
 
-nav li.active, nav li:hover {
-    background-color: #ffb565;
-    -moz-box-shadow: 0px 0px 5px #ffb565;
-    -webkit-box-shadow: 0px 0px 5px #ffb565;
-    box-shadow: 0px 0px 5px #ffb565;
+nav li:hover {
+    background-color: #fff;
+    -moz-box-shadow: 0px 0px 5px #fff;
+    -webkit-box-shadow: 0px 0px 5px #fff;
+    box-shadow: 0px 0px 5px #fff;
 }
 #topnav ul, #topnav li {
     display: inline-block;

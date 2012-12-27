@@ -192,7 +192,7 @@ func sanitizeItem(feedItem *FeedItem) {
 	if len(feedItem.Content) < len(feedItem.Summary) {
 		feedItem.Content = feedItem.Summary
 	}
-
+	feedItem.Received = time.Now()
 }
 
 // Decode decodes an XML byte slice to a Feed struct
