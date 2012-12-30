@@ -3,6 +3,8 @@
     <head>
         <title>LocCom Reader</title>
         <meta charset="utf-8" />
+        <link href="/css/jquery-ui.css" rel="stylesheet" />
+        <link href="/css/loccom.dialog.css" rel="stylesheet" />
         <link href="/css/style.css" rel="stylesheet" />
     </head>
     <body>
@@ -15,8 +17,8 @@
         </nav>
         <nav id="leftnav">
         <h1>LocCom Reader</h1>
-            <input type="button" value="Feed hinzufügen">
             <ul>
+                <li class="ignore"><input type="button" id="addfeed" value="Feed hinzufügen"></li>
             </ul>
         </nav>
         <div id="main">
@@ -33,11 +35,16 @@
         <script id="feed-tmpl" type="text/x-handlebars-tmpl">
             <a href="/feed/{{Id}}"><li>{{Feed.Title}}</li></a>
         </script>
+        <div id="add-feed-dialog" style="display: none">
+            <label for="add-feed-url">URL</label><input id="add-feed-url" />
+        </div>
         <script src="/js/lib/json2.js"></script>
         <script src="/js/lib/jquery.js"></script>
+        <script src="/js/lib/jquery-ui.js"></script>
         <script src="/js/lib/underscore.js"></script>
         <script src="/js/lib/backbone.js"></script>
         <script src="/js/lib/handlebars.js"></script>
-        <script src="/js/main.js"></script>
+        <script src="/js/lib/loccom.dialog.min.js"></script>
+        <script src="/js/main.min.js"></script>
     </body>
 </html>

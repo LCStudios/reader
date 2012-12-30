@@ -39,20 +39,20 @@ input, textarea, select {
 textarea {
     height: 40px;
 }
-input[type=text], input[type=password], input[type=email], textarea {
+input, textarea {
     border-radius: 4px;
     border-style: solid;
     border-width: 1px;
     border-color: #999;
     outline: none;
     margin-bottom: 4px;
-    padding: 1px;
+    padding: 2px;
     -webkit-transition: all 0.1s ease-in-out;
     -moz-transition: all 0.1s ease-in-out;
     -o-transition: all 0.1s ease-in-out;
     transition: all 0.1s ease-in-out;
 }
-input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, textarea:focus {
+input:focus, textarea:focus {
     border-color: #666;
 
 }
@@ -231,7 +231,7 @@ nav li {
     transition: all 0.2s ease-in-out;
 }
 
-nav li:hover {
+nav li:hover:not(.ignore) {
     background-color: #fff;
     -moz-box-shadow: 0px 0px 5px #fff;
     -webkit-box-shadow: 0px 0px 5px #fff;

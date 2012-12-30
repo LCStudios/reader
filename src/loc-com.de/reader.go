@@ -75,7 +75,7 @@ func getFeeds(w http.ResponseWriter, r *http.Request) {
 
 	feeds := make([]dbFeed, numResults)
 
-	err = c.Find(bson.M{"users": bson.M{"$in": []int{user}}}).All(&feeds)
+	err = c.Find(bson.M{"users": bson.M{"$in": []int{user}}}).Sort("feed.title").All(&feeds)
 	if err != nil {
 		panic(err)
 	}
@@ -166,7 +166,11 @@ func feed(w http.ResponseWriter, r *http.Request) {
 			indexHandler(w, r)
 		}
 	} else if r.Method == "POST" {
-		respJSON, _ := json.Marshal(insertFeed(r.FormValue("feed_url")))
+		body, _ := ioutil.ReadAll(r.Body)
+		feed := new(dbFeed)
+		_ = json.Unmarshal(body, feed)
+		log.Printf("Add Feed: %v", feed.Url)
+		respJSON, _ := json.Marshal(insertFeed(feed.Url))
 		fmt.Fprint(w, string(respJSON))
 	}
 }

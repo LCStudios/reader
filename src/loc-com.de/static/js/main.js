@@ -25,9 +25,9 @@
 
     // yC.navigate("feed/50d706a055acd67a106a4a14", {trigger: true});
 
-    Backbone.sync = function (method, model, success, error) {
-        success();
-    };
+    // Backbone.sync = function (method, model, success, error) {
+    //     success();
+    // };
 
     var FeedItem = Backbone.Model.extend({
     });
@@ -37,6 +37,7 @@
     });
 
     var Feed = Backbone.Model.extend({
+        'url': '/feed/'
     });
 
     var Feeds = Backbone.Collection.extend({
@@ -46,19 +47,16 @@
     var FeedItemView = Backbone.View.extend({
         initialize: function () {
             _.bindAll(this, 'render'); // every function that uses 'this' as the current object should be in here
+            this.feedItemTmpl = Handlebars.compile($("#feed-item-tmpl").html());
         },
         render: function () {
-            var feedItemTmpl = Handlebars.compile($("#feed-item-tmpl").html());
-            this.el = feedItemTmpl(this.model.toJSON());
+            this.el = this.feedItemTmpl(this.model.toJSON());
             return this; // for chainable calls, like .render().el
         }
     });
 
     var FeedView = Backbone.View.extend({
         el: $('#content'),
-        // events: {
-        //     'click button#add': 'addFeedItem'
-        // },
         initialize: function () {
             _.bindAll(this, 'render', 'appendFeedItem'); //, 'addFeedItem'); // every function that uses 'this' as the current object should be in here
 
@@ -74,14 +72,6 @@
                 self.appendFeedItem(item);
             }, this);
         },
-        // addFeedItem: function () {
-        //     this.counter++;
-        //     var item = new FeedItem();
-        //     item.set({
-        //         part2: item.get('part2') + this.counter // modify item defaults
-        //     });
-        //     this.collection.add(item);
-        // },
         appendFeedItem: function (item) {
             var itemView = new FeedItemView({
                 model: item
@@ -93,19 +83,21 @@
     var FeedNavView = Backbone.View.extend({
         initialize: function () {
             _.bindAll(this, 'render'); // every function that uses 'this' as the current object should be in here
+            this.feedTmpl = Handlebars.compile($("#feed-tmpl").html());
         },
         render: function () {
-            var feedTmpl = Handlebars.compile($("#feed-tmpl").html());
-            this.el = feedTmpl(this.model.toJSON());
-            // $(this.el).html(feedTmpl(this.model.toJSON()));
+            this.el = this.feedTmpl(this.model.toJSON());
             return this; // for chainable calls, like .render().el
         }
     });
 
     var FeedsNavView = Backbone.View.extend({
         el: $('#leftnav ul'),
+        events: {
+            'click #addfeed': 'addFeedDialog'
+        },
         initialize: function () {
-            _.bindAll(this, 'render', 'appendFeed'); // every function that uses 'this' as the current object should be in here
+            _.bindAll(this, 'render', 'appendFeed', 'addFeed', 'addFeedDialog'); // every function that uses 'this' as the current object should be in here
             this.collection.bind('add', this.appendFeed);
             this.render();
         },
@@ -120,16 +112,34 @@
                 model: feed
             });
             $(this.el).append(feedNavView.render().el);
+        },
+        addFeedDialog: function () {
+            $("#add-feed-dialog").dialog("show");
+        },
+        addFeed: function (url) {
+            this.collection.create({
+                url: url
+            }, {
+                wait: true
+            });
         }
     });
 
+    var feedsView;
 
     $.getJSON('/feeds/1', function (msg) {
         var feeds = new Feeds();
         feeds.reset(msg);
-        var feedsView = new FeedsNavView({
+        feedsView = new FeedsNavView({
             collection: feeds
         });
+    });
+
+    $('#add-feed-dialog').dialog({
+        title: "Feed hinzufügen",
+        submit: function () {
+            feedsView.addFeed($('#add-feed-url').val());
+        }
     });
 
     $(document).on("click", "a:not([data-bypass])", function (evt) {
